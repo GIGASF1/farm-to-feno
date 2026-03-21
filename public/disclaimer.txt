@@ -1,0 +1,24 @@
+Farm to FeNO — Ohio Rural Airway Equity Map
+Educational Tool Disclaimer
+
+This application is for educational, referral optimization, and population-health planning purposes only.
+
+All data presented represents simulated seed data for demonstration purposes only. This application is NOT intended to:
+- Diagnose, treat, or cure any medical condition
+- Replace clinician judgment or clinical decision support tools
+- Constitute a medical device or FDA-cleared diagnostic aid
+- Provide validated epidemiological data for operational use
+
+All clinical decisions must be made by qualified, licensed healthcare providers using validated clinical data from authoritative sources.
+
+Real-world use of opportunity scores, referral recommendations, or care coordination guidance requires validation against:
+- Current-year CDC BRFSS county-level asthma data
+- Ohio Department of Health OHFLAC surveillance data
+- CMS Medicare Geographic Variation data
+- Ohio Medicaid encounter data
+- HRSA facility data
+- Validated drive-time routing data
+
+Data Use: Upload only de-identified patient data. Do not upload any Protected Health Information (PHI) as defined by HIPAA.
+
+For questions: contact the project team.

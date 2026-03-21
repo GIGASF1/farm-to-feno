@@ -1,65 +1,215 @@
-import Image from "next/image";
+import React from 'react';
+import Link from 'next/link';
+import {
+  Map, BarChart2, Upload, BookOpen, FlaskConical, AlertTriangle,
+  MapPin, Users, Wind, TrendingUp,
+} from 'lucide-react';
+import { getStateAverages } from '@/lib/data';
+import { Button } from '@/components/ui/button';
 
-export default function Home() {
+export default function HomePage() {
+  const stats = getStateAverages();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="flex flex-col min-h-full">
+      {/* Hero */}
+      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-20 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 bg-sky-500/20 border border-sky-500/30 rounded-full px-4 py-1.5 text-sky-300 text-sm font-medium mb-6">
+            <Wind className="h-4 w-4" />
+            Ohio Respiratory Equity Initiative
+          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+            Bridging Rural Ohio to{' '}
+            <span className="text-sky-400">Precision Airway Care</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-lg text-slate-300 max-w-3xl mx-auto mb-8 leading-relaxed">
+            A geospatial respiratory equity platform for asthma, COPD, referral optimization, and
+            advanced therapy access across all 88 Ohio counties.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/map">
+              <Button size="lg" className="bg-sky-500 hover:bg-sky-400 text-white font-semibold px-8">
+                <Map className="h-5 w-5 mr-2" />
+                Explore the Map
+              </Button>
+            </Link>
+            <Link href="/insights">
+              <Button size="lg" variant="outline" className="border-slate-500 text-slate-200 hover:bg-slate-700 hover:text-white">
+                <BarChart2 className="h-5 w-5 mr-2" />
+                View Insights
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Metrics */}
+      <section className="bg-white border-b border-slate-200 py-8 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatCard
+              icon={<MapPin className="h-5 w-5" />}
+              value="88"
+              label="Ohio Counties Analyzed"
+              color="text-sky-600"
+            />
+            <StatCard
+              icon={<AlertTriangle className="h-5 w-5" />}
+              value={stats.high_opportunity_count.toString()}
+              label="High-Opportunity Counties"
+              color="text-orange-600"
+            />
+            <StatCard
+              icon={<Users className="h-5 w-5" />}
+              value={stats.appalachian_county_count.toString()}
+              label="Appalachian Counties"
+              color="text-red-600"
+            />
+            <StatCard
+              icon={<TrendingUp className="h-5 w-5" />}
+              value={`${Math.round(stats.avg_hub_distance)} mi`}
+              label="Avg Distance to Specialty"
+              color="text-slate-600"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-16 px-6 bg-slate-50">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl font-bold text-slate-900 text-center mb-3">Platform Modules</h2>
+          <p className="text-slate-500 text-center mb-10 max-w-2xl mx-auto">
+            Built for health systems, rural PCP networks, pharma medical affairs, and care
+            coordination teams working to close Ohio&apos;s respiratory equity gap.
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <FeatureCard
+              href="/map"
+              icon={<Map className="h-6 w-6" />}
+              iconBg="bg-sky-100 text-sky-600"
+              title="Ohio Equity Map"
+              description="Interactive choropleth map with county-level asthma burden, rurality, Appalachian designation, and specialty access gap visualization."
+            />
+            <FeatureCard
+              href="/insights"
+              icon={<BarChart2 className="h-6 w-6" />}
+              iconBg="bg-emerald-100 text-emerald-600"
+              title="Executive Insights"
+              description="Strategic dashboard with top opportunity counties, burden-access mismatch analysis, and stakeholder-specific recommendations."
+            />
+            <FeatureCard
+              href="/referral"
+              icon={<FlaskConical className="h-6 w-6" />}
+              iconBg="bg-violet-100 text-violet-600"
+              title="Referral Model"
+              description="Rules-based clinical referral engine using FeNO, eosinophil count, exacerbation history, and OCS burden to optimize specialty referrals."
+            />
+            <FeatureCard
+              href="/upload"
+              icon={<Upload className="h-6 w-6" />}
+              iconBg="bg-amber-100 text-amber-600"
+              title="Upload Analytics"
+              description="Upload de-identified patient datasets to identify OCS burden pockets, biologic access gaps, and eosinophilic phenotype clusters by county."
+            />
+            <FeatureCard
+              href="/methodology"
+              icon={<BookOpen className="h-6 w-6" />}
+              iconBg="bg-rose-100 text-rose-600"
+              title="Methodology"
+              description="Full data sources, opportunity score algorithm documentation, assumptions, known limitations, and next data integration roadmap."
+            />
+            <FeatureCard
+              href="/county/39145"
+              icon={<MapPin className="h-6 w-6" />}
+              iconBg="bg-slate-100 text-slate-600"
+              title="County Profiles"
+              description="Deep-dive county profiles with full metrics, facility maps, opportunity score breakdown, and referral recommendations."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Mission */}
+      <section className="bg-slate-900 text-white py-14 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl font-bold mb-4">Why Farm to FeNO?</h2>
+          <p className="text-slate-300 leading-relaxed mb-4">
+            Fractional exhaled nitric oxide (FeNO) is a biomarker-driven tool for phenotyping
+            airway inflammation — yet access to FeNO testing and pulmonary specialty care remains
+            profoundly unequal across Ohio&apos;s rural and Appalachian communities.
+          </p>
+          <p className="text-slate-300 leading-relaxed">
+            Farm to FeNO maps where this gap is largest, identifies which patients are most likely
+            to benefit from advanced phenotype-directed therapy, and optimizes the referral pathway
+            from rural primary care to specialty centers.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Disclaimer */}
+      <footer className="bg-slate-800 text-slate-400 py-6 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="h-4 w-4 text-amber-400 flex-shrink-0 mt-0.5" />
+            <p className="text-xs leading-relaxed">
+              <strong className="text-slate-300">Research &amp; Educational Tool:</strong> All data
+              presented is simulated seed data for demonstration purposes. This application is not
+              intended to diagnose, treat, or replace clinician judgment. All clinical decisions
+              must be made by qualified healthcare providers. Data should be validated against
+              current CDC BRFSS, Ohio Department of Health, and CMS sources before operational use.
+            </p>
+          </div>
         </div>
-      </main>
+      </footer>
     </div>
+  );
+}
+
+function StatCard({
+  icon,
+  value,
+  label,
+  color,
+}: {
+  icon: React.ReactNode;
+  value: string;
+  label: string;
+  color: string;
+}) {
+  return (
+    <div className="text-center p-4">
+      <div className={`inline-flex items-center justify-center mb-2 ${color}`}>{icon}</div>
+      <div className="text-3xl font-bold text-slate-900">{value}</div>
+      <div className="text-sm text-slate-500 mt-1">{label}</div>
+    </div>
+  );
+}
+
+function FeatureCard({
+  href,
+  icon,
+  iconBg,
+  title,
+  description,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  iconBg: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:border-sky-200 transition-all group"
+    >
+      <div className={`inline-flex p-2.5 rounded-lg ${iconBg} mb-4 group-hover:scale-110 transition-transform`}>
+        {icon}
+      </div>
+      <h3 className="font-semibold text-slate-900 mb-2">{title}</h3>
+      <p className="text-sm text-slate-500 leading-relaxed">{description}</p>
+    </Link>
   );
 }
