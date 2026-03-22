@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 
 const navLinks = [
   { href: '/map', label: 'Map' },
+  { href: '/real-data', label: 'Real Data' },
   { href: '/insights', label: 'Insights' },
   { href: '/referral', label: 'Referral Model' },
   { href: '/upload', label: 'Upload' },
